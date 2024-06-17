@@ -16,9 +16,11 @@ def main():
         epilog="Thanks for using %(prog)s! :)"
     )
     parser.add_argument("file", help="Specify either json or yaml file")
+    parser.add_argument("-p", "--print", action="store_true",
+                        help="Print output on stdout")
 
     args = parser.parse_args()
-    jyc(args.file)
+    jyc(args.file, args.print)
 
 
 def json_to_yaml(file_path: str):
@@ -45,14 +47,24 @@ def yaml_to_json(file_path: str):
     return
 
 
-def jyc(file_path: str):
+def jyc(file_path: str, print_flag: bool):
     if not file_path.endswith(("yml", "yaml", "json")):
         raise Exception("Not a json or yaml file")
         return
     if file_path.endswith(("yml", "yaml")):
         yaml_to_json(file_path)
+        if print_flag:
+            f = open(OUT_DIR+"/out.json", mode='r')
+            for line in f.readlines():
+                print(line.rstrip())
+            f.close()
     else:
         json_to_yaml(file_path)
+        if print_flag:
+            f = open(OUT_DIR+"/out.yml", mode='r')
+            for line in f.readlines():
+                print(line.rstrip())
+            f.close()
     return
 
 
