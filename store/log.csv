@@ -1,0 +1,13 @@
+Input,JSON or YAML?,Output,flag,username,timestamp
+"apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+
+",yaml,"{""apiVersion"": ""v1"", ""kind"": ""Pod"", ""metadata"": {""name"": ""nginx""}, ""spec"": {""containers"": [{""name"": ""nginx"", ""image"": ""nginx"", ""ports"": [{""containerPort"": 80}]}]}}",,,2024-07-12 18:28:13.074559

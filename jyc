@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+
+import typer
+import os
+from rich import print
+from typing_extensions import Annotated
+from typing import Optional
+from utils import json_to_yaml, yaml_to_json, interface
+
+
+OUT_DIR = os.path.join(os.getcwd(), "outputs")
+
+app = typer.Typer()
+
+
+@app.command(
+    name="cli",
+    help="CLI for json to yaml conversion",
+    epilog="Thanks for using jyc! :)"
+)
+def cli(
+    file_path: Annotated[
+        str,
+        typer.Argument(
+            help="json or yaml file path"
+        )
+    ],
+    out_file_name: Annotated[
+        Optional[str],
+        typer.Option(
+            help="Output file name"
+        )
+    ] = None
+) -> None:
+
+    if not file_path.endswith(("json", "yaml", "yml")):
+        print("[bold red]ERROR[/bold red]: Invalid file extension")
+        return
+
+    out = ""
+    with open(file_path, 'r') as fr:
+        inp = fr.read()
+        if file_path.endswith("json"):
+            out = json_to_yaml(inp)
+            out_file_name = out_file_name or "out.yaml"
+            if not out_file_name.endswith(("yml", "yaml")):
+                print("[bold yellow]ERROR[/bold yellow]: Invalid file name")
+                print("[bold orange4]'out.yaml' will be used[/bold orange4]")
+                out_file_name = "out.yaml"
+        else:
+            out = yaml_to_json(inp)
+            out_file_name = out_file_name or "out.json"
+            if not out_file_name.endswith("json"):
+                print("[bold yellow]ERROR[/bold yellow]: Invalid file name")
+                print("[bold orange4]'out.json' will be used[/bold orange4]")
+                out_file_name = "out.json"
+
+    print(out)
+
+    out_path = os.path.join(OUT_DIR, out_file_name)
+    with open(out_path, 'w') as fw:
+        fw.write(out)
+        print("File is written at ", out_path)
+
+
+@app.command(
+    name="ui",
+    help="UI for json to yaml conversion"
+)
+def ui(
+    public: Annotated[
+        bool,
+        typer.Option(
+            "--public",
+            help="Public link to share"
+        )
+    ] = False
+) -> None:
+    interface().launch(share=public)
+
+
+if __name__ == "__main__":
+    app()
