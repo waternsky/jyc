@@ -7,18 +7,19 @@ def json_to_yaml(inp: str) -> str:
     try:
         data = json.loads(inp)
     except Exception:
-        out = "[bold red]ERROR[/bold red]: Invalid json string"
+        out = "ERROR: Invalid json string"
     else:
-        out = yaml.dump(data)
+        out = yaml.safe_dump(data, allow_unicode=True,
+                             default_flow_style=False, sort_keys=False)
     return out
 
 
 def yaml_to_json(inp: str) -> str:
     out = ""
     try:
-        data = yaml.load(inp, Loader=yaml.SafeLoader)
+        data = yaml.safe_load(inp)
     except Exception:
-        out = "[bold red]ERROR[/bold red]: Invalid yaml string"
+        out = "ERROR: Invalid yaml string"
     else:
         out = json.dumps(data, indent=4)
     return out
