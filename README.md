@@ -33,3 +33,14 @@ You can share public link as well by passing --public flag.
 ./jyc cli <filepath>
 ```
 Checkout --help option for more information.
+
+# Docker
+
+```shell
+docker pull waternsky/jyc
+```
+Start the container by running
+```shell
+docker run -it -p 7860:7860 waternsky/jyc /bin/bash
+```
+Can use all the above [mentioned](#Usage) commands inside container.

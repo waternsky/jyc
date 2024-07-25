@@ -76,7 +76,7 @@ def ui(
         )
     ] = False
 ) -> None:
-    interface().launch(share=public)
+    interface().launch(server_name="0.0.0.0", share=public)
 
 
 if __name__ == "__main__":
