@@ -44,3 +44,10 @@ Start the container by running
 docker run -it -p 7860:7860 waternsky/jyc /bin/bash
 ```
 Can use all the above [mentioned](#Usage) commands inside container.
+
+# Useful tips
+
+1. Clean up the containers using following:
+```shell
+docker ps -a -q --filter ancestor=waternsky/jyc | xargs docker container rm
+```
